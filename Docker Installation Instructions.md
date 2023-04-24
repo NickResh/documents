@@ -10,7 +10,7 @@ https://ipfs.io/
 
 Seed - Seed is an identifier of the Stellar wallet. You must create it before you are starting to deal with a dockers
 
-Nickname- Nickname is some user friendly name that is used in Tor. 
+Nickname- Nickname is some user friendly name that is used in Magic Wave. 
 
 # Prerequisites
 
@@ -28,26 +28,26 @@ Nickname- Nickname is some user friendly name that is used in Tor.
 
 ## Create workspace directory:
 
-    torplusworkspace=<yourworkspacedir>
-    mkdir -p ${torplusworkspace}
-    cd ${torplusworkspace}
+    magicwaveworkspace=<yourworkspacedir>
+    mkdir -p ${magicwaveworkspace}
+    cd ${magicwaveworkspace}
 
 # Run IPFS client
 
 ## Pull image
-    docker pull torplusdev/production:ipfs-latest
+    docker pull magicwaveio/production:ipfs-latest
 
-## Run Tor-Plus container with IPFS:
+## Run Magic Wave container with IPFS:
 
 ## create workspace
 
-    cd ${torplusworkspace}
+    cd ${magicwaveworkspace}
     nickname=tunick21 # set your nickname
     seed=SCR27IGKMKXSOKUV7AC4T3HBTBVBL2MI45HHFSDNRYJFFVKWQAWBBKKZ # set your seed
  
 ## run docker container
     docker run \
-    --name torplusipfs \
+    --name magicwaveipfs \
     -p 28000:28080 \
     -e nickname=${nickname} \
     -e PP_ENV=prod \
@@ -57,17 +57,17 @@ Nickname- Nickname is some user friendly name that is used in Tor.
     -v ${PWD}/ipfs:/root/.ipfs \
     -v ${PWD}/hidden_service:/root/hidden_service \
     --rm \
-    torplusdev/production:ipfs-latest
+    magicwaveio/production:ipfs-latest
 
 ## Add new files to ipfs
 
 #Commands are executed in a new terminal with a running docker container on the computer
 
-    torplusworkspace=<yourworkspacedir>
-    cd ${torplusworkspace}/ipfs
+    magicwaveworkspace=<yourworkspacedir>
+    cd ${magicwaveworkspace}/ipfs
     sudo mkdir -p ./data
-    sudo cp ~/<the path to the file that we will upload to the ipfs network> /${torplusworkspace}/ipfs/data  # The file that we will upload to the ipfs is copied to the folder
-    sudo docker exec -it torplusipfs /bin/bash
+    sudo cp ~/<the path to the file that we will upload to the ipfs network> /${magicwaveworkspace}/ipfs/data  # The file that we will upload to the ipfs is copied to the folder
+    sudo docker exec -it magicwaveipfs /bin/bash
      ./ipfs add ~/.ipfs/data/<file name>  # After successfully uploading the file to the ipfs, a message is displayed "added <cid> <file name>"
      ./ipfs get "cid"
 
@@ -75,14 +75,14 @@ Nickname- Nickname is some user friendly name that is used in Tor.
 
 #Copy cid link from previous step. 
 
-    Open Chrome browser with TorPlus installed on your computer and follow the link http://localhost:8080/ipfs/"cid"  
+    Open Chrome browser with Magic Wave installed on your computer and follow the link http://localhost:8080/ipfs/"cid"  
     # Playback or display of the file uploaded to the ipfs will start, if the file format is not supported by the site, 
-    then it will be downloaded to the computer. Attention!!! This verification will be charged for using the TorPlus network!
+    then it will be downloaded to the computer. Attention!!! This verification will be charged for using the Magic Wave network!
     
 ## Setting and testing Video site:
 
     1. Get the <cid> of the uploaded video file to the ipfs network. # Downloadable video formats must be supported by the CMS site. For example for wordpress - mp4, m4v, webm, ogv, wmv, flv.
-    2. Launch a docker container, as a result, get the website address in the TorPlus network - https://torplus.{your domain name}
+    2. Launch a docker container, as a result, get the website address in the Magic Wave network - https://magicwave.{your domain name}
     3. Go to the WordPress site as an administrator.
     4. Go to the site admin panel and add a new post or site page. # Or go to the video page.
 ![image](https://user-images.githubusercontent.com/52072466/144409412-cb7434d0-1523-4980-bb37-cc7641c4f5a1.png)
@@ -100,9 +100,9 @@ Nickname- Nickname is some user friendly name that is used in Tor.
 
 ## Create folder for ssl and copy ssl to dir
 
-    torplusworkspace=<yourworkspacedir>
-    mkdir -p ${torplusworkspace}
-    cd ${torplusworkspace}
+    magicwaveworkspace=<yourworkspacedir>
+    mkdir -p ${magicwaveworkspace}
+    cd ${magicwaveworkspace}
     mkdir -p ssl
 
 ## If use let's encrypt:
@@ -116,17 +116,17 @@ Nickname- Nickname is some user friendly name that is used in Tor.
                 --non-interactive --agree-tos --email ${email} \
                 --http-01-port=80
 
-    cat /etc/letsencrypt/live/${domain}/fullchain.pem /etc/letsencrypt/live/${domain}/privkey.pem > ${torplusworkspace}/ssl/${domain}.pem
+    cat /etc/letsencrypt/live/${domain}/fullchain.pem /etc/letsencrypt/live/${domain}/privkey.pem > ${magicwaveworkspace}/ssl/${domain}.pem
 
 ## Pull docker image:
 
-    docker pull torplusdev/production:ipfs_haproxy-latest
+    docker pull magicwaveio/production:ipfs_haproxy-latest
 
 ## For host static files
     
     #Get the <cid> of the uploaded video file to the ipfs network. # Downloadable video formats must be supported by the CMS site. For example for wordpress - mp4, m4v, webm, ogv, wmv, flv.
     #Set static files:
-        cd ${torplusworkspace}
+        cd ${magicwaveworkspace}
         mkdir static 
         echo "<html>
                  <head>
@@ -142,19 +142,19 @@ Nickname- Nickname is some user friendly name that is used in Tor.
                   </video>
                  </body>
                </html>" > ./static/index.html # or copy your static files
-    #After starting the docker container, go to the page https://torplus.{your domain name} from the TorPlus client. 2 added video files are displayed
+    #After starting the docker container, go to the page https://magicwave.{your domain name} from the Magic Wave client. 2 added video files are displayed
     
 You can see the example [here](https://torplus.videotpdemo.com/wp-content/uploads/2022/07/helloworld.html) or download the finished html [here](https://github.com/torplusdev/helloworld.html)
 
 ## Run docker image:
 
-    cd ${torplusworkspace}
+    cd ${magicwaveworkspace}
     seed=SCR27IGKMKXSOKUV7AC4T3HBTBVBL2MI45HHFSDNRYJFFVKWQAWBBKKZ  # set your seed
     nickname=tum332 # set your nickname
     
 ## Run docker
     docker run \
-        --name torplus \
+        --name magicwave \
         -e nickname=${nickname} \
         -e seed=${seed} \
         -e role=hs_client \
@@ -166,17 +166,17 @@ You can see the example [here](https://torplus.videotpdemo.com/wp-content/upload
         -p 28000:28080 \
         -v ${PWD}/tor:/root/tor \
         -v ${PWD}/ipfs:/root/.ipfs \
-        -v ${PWD}/ssl:/etc/ssl/torplus/ \
+        -v ${PWD}/ssl:/etc/ssl/magicwave/ \
         -v ${PWD}/hidden_service:/root/hidden_service \
         -v ${PWD}/static:/var/www/html \
         --rm \
-        torplusdev/production:ipfs_haproxy-latest
+        magicwaveio/production:ipfs_haproxy-latest
 
 ## Add text record to DNS:
 
     1. Echo onion address to console: 
     Run command:
-    echo torplus=$(cat hidden_service/hsv3/hostname)
+    echo magicwave=$(cat hidden_service/hsv3/hostname)
 ![image](https://user-images.githubusercontent.com/52072466/144443915-afac936e-7eb7-4304-a834-3c017e3d3633.png)
     
     2. Add it to DNS TXT records:
@@ -193,17 +193,17 @@ You can see the example [here](https://torplus.videotpdemo.com/wp-content/upload
     3. Check txt record. Open https://www.whatsmydns.net/#TXT/ Enter your domain name.
 ![image](https://user-images.githubusercontent.com/52072466/144444770-2c565917-52d3-4f49-ba28-ef4efafa0d0d.png)
 
-## Add torplus subdomain to your domain
+## Add magicwave subdomain to your domain
 
-    In the domain manager you need to add forward subdomain of torplus to https://torplus.com
+    In the domain manager you need to add forward subdomain of magicwave to https://magicwave.io
 
 # Host from another ip or host or localhost site
 
 ## Create folder for ssl and copy ssl to dir
 
-    torplusworkspace=<yourworkspacedir>
-    mkdir -p ${torplusworkspace}
-    cd ${torplusworkspace}
+    magicwaveworkspace=<yourworkspacedir>
+    mkdir -p ${magicwaveworkspace}
+    cd ${magicwaveworkspace}
     mkdir -p ssl
 
 ## If use let's encrypt:
@@ -217,22 +217,22 @@ You can see the example [here](https://torplus.videotpdemo.com/wp-content/upload
                 --non-interactive --agree-tos --email ${email} \
                 --http-01-port=80
     
-    cat /etc/letsencrypt/live/${domain}/fullchain.pem /etc/letsencrypt/live/${domain}/privkey.pem > ${torplusworkspace}/ssl/${domain}.pem
+    cat /etc/letsencrypt/live/${domain}/fullchain.pem /etc/letsencrypt/live/${domain}/privkey.pem > ${magicwaveworkspace}/ssl/${domain}.pem
 
 ## Pull docker image:
 
-    docker pull torplusdev/production:ipfs_haproxy-latest
+    docker pull magicwaveio/production:ipfs_haproxy-latest
 
 ## Run docker container:
 
-    cd ${torplusworkspace}
+    cd ${magicwaveworkspace}
     seed=SCR27IGKMKXSOKUV7AC4T3HBTBVBL2MI45HHFSDNRYJFFVKWQAWBBKKZ # set your seed
     nickname=tum33212 # set your nickname
     http_address=1.1.1.1:80 # set your webserver ip/name. The port :80 must be entered after ip or domain
 
 ##  Run docker:
     docker run \
-            --name torplus \
+            --name magicwave \
             -e nickname=${nickname} \
             -e seed=${seed} \
             -e role=hs_client \
@@ -243,41 +243,41 @@ You can see the example [here](https://torplus.videotpdemo.com/wp-content/upload
             -p 28000:28080 \
             -v ${PWD}/tor:/root/tor \
             -v ${PWD}/ipfs:/root/.ipfs \
-            -v ${PWD}/ssl:/etc/ssl/torplus/ \
+            -v ${PWD}/ssl:/etc/ssl/magicwave/ \
             -v ${PWD}/hidden_service:/root/hidden_service \
             --add-host host.docker.internal:host-gateway \
             --rm \
-            torplusdev/production:ipfs_haproxy-latest
+            magicwaveio/production:ipfs_haproxy-latest
 
 ## Add text record to DNS:
 
-    cat ${torplusworkspace}/hidden_service/hsv3/hostname
+    cat ${magicwaveworkspace}/hidden_service/hsv3/hostname
  
-    torplus=<onion address without .onion suffix>
+    magicwave=<onion address without .onion suffix>
 
 #To check TXT record you can use 
-https://www.whatsmydns.net/#TXT/torplus.{domain}
+https://www.whatsmydns.net/#TXT/magicwave.{domain}
 
-## Add torplus subdomain to your domain
+## Add magicwave subdomain to your domain
 
-    In the domain manager you need to add forward subdomain of torplus to https://torplus.com
+    In the domain manager you need to add forward subdomain of magicwave to https://magicwave.io
     
 # Сhecking sample server
 
-## Install TorPluse client
+## Install Magic Wave client
 
-    1. Go to the site https://torplus.com/download/
+    1. Go to the site https://magicwave.io/download/
     2. Select the installer for the OS (example "Download for Windows (10+)")
     3. Run installer.
     4. Follow the instructions of the installer.
     5. Start or restart (if open) Сhrome browser.
-    6. In the browser message "Torplus extension add" click on the button Enable extension.
+    6. In the browser message "Magic Wave extension add" click on the button Enable extension.
 ![image](https://user-images.githubusercontent.com/52072466/144256915-900f09a6-fb4f-4e52-ae57-55a3b9ce6900.png)
     
-    7. Go to https://torplus.{your domain name}  # There is a successful transition to the site https://torplus.{your domain name}
-    8. Сlick on the Torplus extension with the left mouse button and switch the switch position to off mode.
+    7. Go to https://magicwave.{your domain name}  # There is a successful transition to the site https://magicwave.{your domain name}
+    8. Сlick on the Magic Wave extension with the left mouse button and switch the switch position to off mode.
 ![image](https://user-images.githubusercontent.com/52072466/144257475-42afcdba-4e73-4ce2-aa27-adb83cfeedea.png)
     
-    9. Go to https://torplus.{your domain name}  # There is a redirect to the page for requires the Torplus application https://torplus.com/requires/
+    9. Go to https://magicwave.{your domain name}  # There is a redirect to the page for requires the Magic Wave application https://magicwave.io/requires/
 
 
