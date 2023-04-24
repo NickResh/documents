@@ -10,7 +10,7 @@ https://ipfs.io/
 
 Seed - Seed is an identifier of the Stellar wallet. You must create it before you are starting to deal with a dockers
 
-Nickname- Nickname is some user friendly name that is used in Tor. 
+Nickname- Nickname is some user friendly name that is used in Magic Wave. 
 
 # Prerequisites
 
@@ -28,20 +28,20 @@ Nickname- Nickname is some user friendly name that is used in Tor.
 
 ## Create workspace directory:
 
-    torplusworkspace=<yourworkspacedir>
-    mkdir -p ${torplusworkspace}
-    cd ${torplusworkspace}
+    magicwaveworkspace=<yourworkspacedir>
+    mkdir -p ${magicwaveworkspace}
+    cd ${magicwaveworkspace}
 
 # Run IPFS client
 
 ## Pull image
-    docker pull torplusdev/production:ipfs-latest
+    docker pull magicwaveio/production:ipfs-latest
 
 ## Run Tor-Plus container with IPFS:
 
 ## create workspace
 
-    cd ${torplusworkspace}
+    cd ${magicwaveworkspace}
     nickname=tunick21 # set your nickname
     seed=SCR27IGKMKXSOKUV7AC4T3HBTBVBL2MI45HHFSDNRYJFFVKWQAWBBKKZ # set your seed
  
@@ -63,10 +63,10 @@ Nickname- Nickname is some user friendly name that is used in Tor.
 
 #Commands are executed in a new terminal with a running docker container on the computer
 
-    torplusworkspace=<yourworkspacedir>
-    cd ${torplusworkspace}/ipfs
+    magicwaveworkspace=<yourworkspacedir>
+    cd ${magicwaveworkspace}/ipfs
     sudo mkdir -p ./data
-    sudo cp ~/<the path to the file that we will upload to the ipfs network> /${torplusworkspace}/ipfs/data  # The file that we will upload to the ipfs is copied to the folder
+    sudo cp ~/<the path to the file that we will upload to the ipfs network> /${magicwaveworkspace}/ipfs/data  # The file that we will upload to the ipfs is copied to the folder
     sudo docker exec -it torplusipfs /bin/bash
      ./ipfs add ~/.ipfs/data/<file name>  # After successfully uploading the file to the ipfs, a message is displayed "added <cid> <file name>"
      ./ipfs get "cid"
@@ -75,9 +75,9 @@ Nickname- Nickname is some user friendly name that is used in Tor.
 
 #Copy cid link from previous step. 
 
-    Open Chrome browser with TorPlus installed on your computer and follow the link http://localhost:8080/ipfs/"cid"  
+    Open Chrome browser with Magic Wave installed on your computer and follow the link http://localhost:8080/ipfs/"cid"  
     # Playback or display of the file uploaded to the ipfs will start, if the file format is not supported by the site, 
-    then it will be downloaded to the computer. Attention!!! This verification will be charged for using the TorPlus network!
+    then it will be downloaded to the computer. Attention!!! This verification will be charged for using the Magic Wave network!
     
 ## Setting and testing Video site:
 
